@@ -1,0 +1,43 @@
+name: Ci
+
+on:
+  push: { branches: [main] }
+
+env:
+  NODE_VERSION: "16.19.0"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Create .env file
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ./.env.local
+          contents: |
+            echo "${{ secrets.ENV_DATA }}"
+          write-mode: overwrite
+
+      - name: SFTP uploader
+        uses: wangyucode/sftp-upload-action@v1.3.2
+        with:
+          host: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          localDir: "./"
+          remoteDir: "/home/rootadmin/portfolio"
+
+      - name: Restart App
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: 22
+          script: |
+            cd  /home/rootadmin/portfolio
+            npm i 
+            npm run build
+            pm2 restart all
