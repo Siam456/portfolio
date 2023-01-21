@@ -101,8 +101,6 @@ export default function index() {
                 </span>
               </div>
 
-              <span>siam</span>
-
               <Button
                 type="submit"
                 className={`py-2 px-12 my-6 text-sm font-medium text-gray-900 dark:text-gray-100 bg-green-600 hover:bg-green-700 duration-300 `}
