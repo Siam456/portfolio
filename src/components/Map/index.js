@@ -17,7 +17,7 @@ export default function index() {
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
         <Marker position={[23.776874, 90.426588]}>
-          <Popup>Hello!</Popup>
+          <Popup>Hello!!</Popup>
         </Marker>
       </MapContainer>
     </>
